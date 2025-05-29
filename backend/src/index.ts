@@ -15,27 +15,30 @@ const app = new Hono<{
 app.post('/api/v1/signup' ,async (c) =>{
 
   const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL
-    }).$extends(withAccelerate())
-    const body = await c.req.json();  
+  datasourceUrl: c.env.DATABASE_URL
+  }).$extends(withAccelerate())
 
-    const user = await prisma.user.create({
-      data:{
-          userName: body.email ,
-          password : body.password 
-      }
-    })
-    if(!user){
-      c.status(403);
-      return c.json({error : "could not connect to the database "})
+  try{
+  const body = await c.req.json();  
+
+  const user = await prisma.user.create({
+    data:{
+        userName: body.email ,
+        password : body.password 
     }
-    const token = await sign({id : user.id}  , c.env.JWT_SECRET)
+  })
+  
+  const token = await sign({id : user.id}  , c.env.JWT_SECRET)
 
   
 
   return c.json({
     jwt : token 
-  })
+  }) }catch(e){
+    return c.json({
+      error : "Something went wrong"
+    })
+  }
 
 })
 
@@ -61,7 +64,13 @@ app.post('/api/v1/signin' , async  (c)=>{
     })
   }
 
-  return c.text("signIn Route")
+  const token = await sign({id : user.id} , c.env.JWT_SECRET)
+
+  return c.json({
+    jwt : token
+  })
+
+                                                                                                  
 })
 
 app.post('/api/v1/blog' , (c) => {
