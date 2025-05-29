@@ -12,6 +12,23 @@ const app = new Hono<{
   }
 }>()
 
+app.use('/api/v1/blog/*' , async (c , next) => {
+  //get the header 
+  //verify the header
+  const header = c.req.header("authorization") || ""
+  const token = header.split(" ")[1]
+  const response = await  verify(token , c.env.JWT_SECRET)
+
+  if(response.id){
+    await next()
+  }else {
+    c.status(403)
+    return c.json({
+      error :"session expired"
+    } )
+  }
+})
+
 app.post('/api/v1/signup' ,async (c) =>{
 
   const prisma = new PrismaClient({
