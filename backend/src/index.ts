@@ -1,9 +1,6 @@
 import { Hono } from 'hono'
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
-import { decode , sign , verify } from 'hono/jwt'
-
-
+import { blogRouter } from './routes/blog'
+import { userRouter } from './routes/user'
 
 const app = new Hono<{
   Bindings : {
@@ -12,94 +9,9 @@ const app = new Hono<{
   }
 }>()
 
-app.use('/api/v1/blog/*' , async (c , next) => {
-  //get the header 
-  //verify the header
-  const header = c.req.header("authorization") || ""
-  const token = header.split(" ")[1]
-  const response = await  verify(token , c.env.JWT_SECRET)
+app.route('/api/v1/user', userRouter)
+app.route('/api/v1/blog' ,blogRouter)
 
-  if(response.id){
-    await next()
-  }else {
-    c.status(403)
-    return c.json({
-      error :"session expired"
-    } )
-  }
-})
 
-app.post('/api/v1/signup' ,async (c) =>{
-
-  const prisma = new PrismaClient({
-  datasourceUrl: c.env.DATABASE_URL
-  }).$extends(withAccelerate())
-
-  try{
-  const body = await c.req.json();  
-
-  const user = await prisma.user.create({
-    data:{
-        userName: body.email ,
-        password : body.password 
-    }
-  })
-  
-  const token = await sign({id : user.id}  , c.env.JWT_SECRET)
-
-  
-
-  return c.json({
-    jwt : token 
-  }) }catch(e){
-    return c.json({
-      error : "Something went wrong"
-    })
-  }
-
-})
-
-app.post('/api/v1/signin' , async  (c)=>{
-
-  const prisma = new PrismaClient({
-    datasourceUrl :c.env.DATABASE_URL
-  }).$extends(withAccelerate())
-
-  const payload = await c.req.json();
-
-  const user = await prisma.user.findUnique({
-    where: {
-      userName : payload.email , 
-      password : payload.password
-    }
-  })
-
-  if(!user){
-    c.status(401)
-    return c.json({
-      error : "Unauthorizes access"
-    })
-  }
-
-  const token = await sign({id : user.id} , c.env.JWT_SECRET)
-
-  return c.json({
-    jwt : token
-  })
-
-                                                                                                  
-})
-
-app.post('/api/v1/blog' , (c) => {
-  return c.text("")
-})
-
-app.put('/api/v1/blog' ,(c) =>{
-
-})
-
-app.get('/api/v1/blog/:id' , (c)=>{
-
-})
 
 export default app
