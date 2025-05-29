@@ -15,7 +15,7 @@ const app = new Hono<{
 app.post('/api/v1/signup' ,async (c) =>{
 
   const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
+    datasourceUrl: c.env.DATABASE_URL
     }).$extends(withAccelerate())
     const body = await c.req.json();  
 
@@ -25,7 +25,11 @@ app.post('/api/v1/signup' ,async (c) =>{
           password : body.password 
       }
     })
-    const token = sign({id : user.id}  , c.env.JWT_SECRET)
+    if(!user){
+      c.status(403);
+      return c.json({error : "could not connect to the database "})
+    }
+    const token = await sign({id : user.id}  , c.env.JWT_SECRET)
 
   
 
@@ -35,7 +39,28 @@ app.post('/api/v1/signup' ,async (c) =>{
 
 })
 
-app.post('/api/v1/signin' , (c)=>{
+app.post('/api/v1/signin' , async  (c)=>{
+
+  const prisma = new PrismaClient({
+    datasourceUrl :c.env.DATABASE_URL
+  }).$extends(withAccelerate())
+
+  const payload = await c.req.json();
+
+  const user = await prisma.user.findUnique({
+    where: {
+      userName : payload.email , 
+      password : payload.password
+    }
+  })
+
+  if(!user){
+    c.status(401)
+    return c.json({
+      error : "Unauthorizes access"
+    })
+  }
+
   return c.text("signIn Route")
 })
 
