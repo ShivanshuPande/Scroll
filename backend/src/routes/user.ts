@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+import { signInInput, signUpInput } from "@fable07/medium-common";
 
 export const userRouter = new Hono<{
     Bindings : {
@@ -21,6 +22,13 @@ userRouter.post('/signup' ,async (c) =>{
   try{
   const body = await c.req.json();  
 
+  const {success} = signUpInput.safeParse(body)
+  if(!success){
+    c.status(411)
+    return c.json({
+      error :"invalid schema"
+    })
+  }
   const user = await prisma.user.create({
     data:{
         userName: body.email ,
@@ -48,27 +56,44 @@ userRouter.post('/signin' , async  (c)=>{
     datasourceUrl :c.env.DATABASE_URL
   }).$extends(withAccelerate())
 
-  const payload = await c.req.json();
 
-  const user = await prisma.user.findUnique({
-    where: {
-      userName : payload.email , 
-      password : payload.password
+  try {
+    const payload = await c.req.json();
+
+    const {success} = signInInput.safeParse(payload)
+
+    if (!success){
+      c.status(400)
+      return c.json({
+        error : "Invalid Inputs"
+      })
     }
-  })
 
-  if(!user){
-    c.status(401)
+    const user = await prisma.user.findUnique({
+      where: {
+        userName : payload.email , 
+        password : payload.password
+      }
+    })
+
+    if(!user){
+      c.status(401)
+      return c.json({
+        error : "Unauthorizes access"
+      })
+    }
+
+    const token = await sign({id : user.id} , c.env.JWT_SECRET)
+
     return c.json({
-      error : "Unauthorizes access"
+      jwt : token
+    })
+
+  }catch(e){
+    return c.json({
+      error : "Error Signing In!"
     })
   }
-
-  const token = await sign({id : user.id} , c.env.JWT_SECRET)
-
-  return c.json({
-    jwt : token
-  })
-
+  
                                                                                                   
 })

@@ -3,7 +3,6 @@ import { verify } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
-
 export const blogRouter = new Hono<{
     Bindings : {
         DATABASE_URL : string ,
@@ -18,23 +17,29 @@ export const blogRouter = new Hono<{
 blogRouter.use('/*' , async (c , next) => {
   //get the header 
   //verify the header
-  const header = c.req.header("authorization") || ""
-  const token = header.split(" ")[1]
+  try{
+    const header = c.req.header("authorization") || ""
+    const token = header.split(" ")[1]
 
-  const response = await verify(token , c.env.JWT_SECRET)
+    const response = await verify(token , c.env.JWT_SECRET)
 
-
-  
-  if(response){
+    if(response){
     //@ts-ignore
     c.set("authorId" , response.id)
     await next()
-  }else {
+    }else {
     c.status(403)
     return c.json({
-      error :"Unauthorized session"
+        error :"Unauthorized session"
+    })
+    }
+  }catch(e){
+    c.status(403)
+    return c.json({
+        error : "You are not logged in"
     })
   }
+
 })
 
 
