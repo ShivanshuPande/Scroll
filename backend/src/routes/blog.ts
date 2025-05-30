@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { auth } from "hono/utils/basic-auth";
+
 
 export const blogRouter = new Hono<{
     Bindings : {
@@ -18,9 +18,6 @@ export const blogRouter = new Hono<{
 blogRouter.use('/*' , async (c , next) => {
   //get the header 
   //verify the header
-  type jwtPayload ={
-    id : string
-  }
   const header = c.req.header("authorization") || ""
   const token = header.split(" ")[1]
 
