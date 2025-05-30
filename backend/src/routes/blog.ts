@@ -85,6 +85,19 @@ blogRouter.put('/' ,async(c) =>{
     })
 })
 
+//pagination --make 9 blogs to be returned on the first page load, more of them only after the user scrolls
+blogRouter.get("/all" , async (c)=>{
+    const prisma = new PrismaClient({
+    datasourceUrl :c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
+    const blogs = await prisma.post.findMany(); 
+
+    return c.json({
+        blogs
+    })  
+})
+
 blogRouter.get('/:id' ,async (c)=>{
     const prisma = new PrismaClient({
     datasourceUrl :c.env.DATABASE_URL
@@ -114,15 +127,3 @@ blogRouter.get('/:id' ,async (c)=>{
     
 })
 
-//pagination --make 9 blogs to be returned on the first page load, more of them only after the user scrolls
-blogRouter.get("/all" , async (c)=>{
-    const prisma = new PrismaClient({
-    datasourceUrl :c.env.DATABASE_URL
-    }).$extends(withAccelerate())
-
-    const blogs = await prisma.post.findMany(); 
-
-    return c.json({
-        blogs
-    })  
-})
