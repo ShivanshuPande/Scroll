@@ -127,6 +127,5 @@ blogRouter.get("/all" , async (c)=>{
 
     return c.json({
         blogs
-    })
-
-} )
+    })  
+})
