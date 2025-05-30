@@ -1,5 +1,7 @@
 export const Blog =()=>{
-    <div>
+    return(
+        <div>
         From the Blog Page
-    </div>
+        </div>
+    )
 }
