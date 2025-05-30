@@ -91,11 +91,11 @@ blogRouter.get('/:id' ,async (c)=>{
     }).$extends(withAccelerate())
 
     try{
-        const payload = await c.req.json()
+        const id = await c.req.param("id")
 
         const blog =  await prisma.post.findMany({
             where : {
-                id : payload.id 
+                id : id
             }
         })
 
