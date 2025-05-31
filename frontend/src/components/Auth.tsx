@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, redirectDocument } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 export const Auth = ()=>{
@@ -10,15 +10,15 @@ export const Auth = ()=>{
     return(
         
         <div className="flex justify-center flex-col">
-            <div className="font-outfit">
+            <div className="font-outfit pt-10">
                 <div className="text-4xl">
                     Create  a Account
                 </div>
                 <div className="flex flex-row">
                     <div className="pl-14 text-base ">
-                    Already a User ? 
+                    Already a User? 
                     </div>
-                    <div className="underline text-base ">
+                    <div className="underline text-base pl-2">
                     <Link to={"/signin"}>Log In.</Link>
                     </div>
                 </div>
@@ -41,18 +41,16 @@ export const Auth = ()=>{
 
 interface ButtonTypes {
     Label : string
-    onClick : (e : React.ChangeEvent<HTMLInputElement>)=> void
+    onClick : ()=> void
 }
 
 function Button({Label , onClick} : ButtonTypes) {
 
     return(
-        <>
-
             <button onClick={onClick} type="button" className="text-white bg-black 
            font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2
            ">{Label}</button>
-        </>
+        
     )
 
 }
@@ -66,7 +64,7 @@ interface InputBoxType {
 function InputBox({label , placeholder , onChange} :  InputBoxType){
     return  <div>
                 <label  className="font-outfit block mb-2 text-sm font-medium text-gray-900">{label}</label>
-                <input onChange={onChange} type="text" id="first_name" className="font-outfit bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg
+                <input onChange={onChange} type="text"  className="font-outfit bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm rounded-lg
                  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-black dark:placeholder-gray-400
                   dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={placeholder} required />
             </div>
