@@ -3,11 +3,9 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "lib": ["es2020", "dom"],
     "strict": true,
     "skipLibCheck": true,
-    "lib": [
-      "ESNext"
-    ],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
   },

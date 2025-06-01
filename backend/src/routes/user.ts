@@ -43,6 +43,8 @@ userRouter.post('/signup' ,async (c) =>{
   return c.json({
     jwt : token 
   }) }catch(e){
+    console.log("Signup error:", e);
+    c.status(400)
     return c.json({
       error : "Something went wrong"
     })
