@@ -1,6 +1,8 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link , useNavigate } from "react-router-dom"
 import type { SignInInput } from "@fable07/medium-common"
+import axios from "axios"
+
 
 interface AuthProps { 
     type : "signin" | "signup"
@@ -9,17 +11,12 @@ interface AuthProps {
 
 export const Auth = ({type} : AuthProps)=>{
 
+    const navigate = useNavigate()
+
     const [userInputs , setuserInputs ] = useState<SignInInput>({
         email : "" ,
         password : ""
     })
-
-    const  InputHandler =  () =>{
-        console.log(userInputs)
-        setuserInputs({
-            email:"" ,
-            password : ""
-        })
     //need to make post to the backend that connects and register the details of the User
     }
     return(<>
@@ -71,7 +68,7 @@ interface ButtonTypes {
 function Button({Label , onClick} : ButtonTypes) {
 
     return(
-            <button onClick={onClick} type="button" className="text-white bg-black cursor-pointer
+        <button onClick={onClick} type="button" className="text-white bg-black cursor-pointer
         font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 active:bg-gray-800
         ">{Label}</button>
         
