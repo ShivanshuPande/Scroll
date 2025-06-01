@@ -85,7 +85,7 @@ export const Auth = ({type} : AuthProps)=>{
         try {
         const value = await axios.post(`${DATABASE_URL}/api/v1/user/${type === "signup" ? "signup" :'signin'}`  , userInputs)
         
-        const token = value.data.token ;
+        const token = value.data.jwt ;
 
         localStorage.setItem('jwtToken' , token)
 
