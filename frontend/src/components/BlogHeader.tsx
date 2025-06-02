@@ -7,7 +7,7 @@ interface ButtonProps {
 
 function Button({onClick} : ButtonProps){
     return (
-    <span className="flex items-center bg-orange-200 rounded-3xl">
+    <span className="flex items-center ml-3 bg-orange-200 rounded-3xl">
         <button onClick={onClick} className=" flex items-center pl-5 pr-4 ">
             <span className="pr-2 text-xl  font-outfit">Publish</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
@@ -25,14 +25,14 @@ function temp (){
 export const BlogHeader=()=>{
     return (
         <div className="fixed left-1/2 -translate-x-1/2 top-0 p-4 z-50">
-            <div className=" bg-linear-to-r from-purple-50 to-fuchsia-50 w-200 h-18 flex justify-between content-center
+            <div className=" bg-linear-to-r from-purple-50 to-fuchsia-50 lg:w-200 md:w-150 sm:w-120 w-96 h-18 flex justify-between content-center
                 rounded-4xl  items-center opacity-[.90]">
                 <div className="font-outfit font-medium text-5xl pl-7 ">
                     Scroll
                 </div>
                 <div className="flex">
                     <Button onClick={temp}/>
-                        <span className="ml-12 pr-4">
+                        <span className="sm:ml-10 ml-2 pr-4">
                             <Avatar fontSize={"2xl"} size={50} name="Shivanshu Pandey"/>
                         </span>
                     </div>
