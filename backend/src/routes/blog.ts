@@ -19,6 +19,7 @@ blogRouter.use('/*' , async (c , next) => {
   //get the header 
   //verify the header
 
+
   try{
     const header = c.req.header("authorization") || ""
     const token = header.split(" ")[1]
@@ -100,7 +101,7 @@ blogRouter.put('/' ,async(c) =>{
 
         if (!success){
             return c.json({
-                error : "enter valid inputs all updating the blog"
+                error : "enter valid inputs while updating the blog"
             })
         }
         const blog =  await prisma.post.update({
@@ -176,3 +177,34 @@ blogRouter.get('/:id' ,async (c)=>{
     
 })
 
+blogRouter.get('/details' ,async(c)=>{
+    const prisma = new PrismaClient({
+    datasourceUrl :c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
+    try {
+        const authorId = c.get("authorId"); 
+
+        const userDetails = await prisma.user.findUnique({
+        where: {
+            id: authorId,
+        },
+        select: {
+            userName: true,
+            id : true
+        },
+        })
+
+        return c.json({
+            userDetails
+        })
+
+    }catch(e){
+        c.status(400)
+        return c.json({
+            message :"Couldnt get the user details"
+        })
+
+    }
+    
+})
