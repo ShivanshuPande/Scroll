@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+// import { withAccelerate } from '@prisma/extension-accelerate'
 import { signInInput, signUpInput } from "@fable07/medium-common";
 
 export const userRouter = new Hono<{
@@ -15,9 +15,7 @@ export const userRouter = new Hono<{
 
 userRouter.post('/signup' ,async (c) =>{
 
-  const prisma = new PrismaClient({
-  datasourceUrl: c.env.DATABASE_URL
-  }).$extends(withAccelerate())
+  const prisma = new PrismaClient();
 
   try{
   const body = await c.req.json();  
@@ -54,9 +52,7 @@ userRouter.post('/signup' ,async (c) =>{
 
 userRouter.post('/signin' , async  (c)=>{
 
-  const prisma = new PrismaClient({
-    datasourceUrl :c.env.DATABASE_URL
-  }).$extends(withAccelerate())
+  const prisma = new PrismaClient();
 
 
   try {
