@@ -18,6 +18,7 @@ export const blogRouter = new Hono<{
 blogRouter.use('/*' , async (c , next) => {
   //get the header 
   //verify the header
+
   try{
     const header = c.req.header("authorization") || ""
     const token = header.split(" ")[1]
@@ -77,6 +78,7 @@ blogRouter.post('/' ,async (c) => {
             blogId : blog
         })
     }catch(e){
+        console.error(e)
         return c.json({
             error:"Error while posting the data"
         })
