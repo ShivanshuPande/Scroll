@@ -135,10 +135,10 @@ blogRouter.get("/all" , async (c)=>{
             title: true,
             content:true ,
             createdAt : true,
-            updatedAt:true, 
+            updatedAt:true,
             author : {
                 select : {
-                    userName:true   
+                    userName:true
                 }
             }
         }
@@ -146,6 +146,52 @@ blogRouter.get("/all" , async (c)=>{
     return c.json({
         blogs
     })  
+})
+
+
+blogRouter.get('/details' ,async(c)=>{
+    const prisma = new PrismaClient({
+    datasourceUrl :c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+
+    try {
+        const authorId = c.get("authorId"); 
+        const userDetails = await prisma.user.findUnique({
+            where: {
+                id: authorId
+            },
+            select: {
+                userName: true,
+                id: true
+            }
+            });
+
+        // const userDetails = await prisma.post.findFirst({
+        // where: {
+        //     id: authorId,
+        // },
+        // select: {
+        //     author :{
+        //         select :{
+        //             userName :true ,
+        //             id :true
+        //         }
+        //     }
+        // },
+        // })
+
+        return c.json({
+            userDetails
+        })
+
+    }catch(e){
+        c.status(400)
+        return c.json({
+            message :"Couldnt get the user details"
+        })
+
+    }
+    
 })
 
 blogRouter.get('/:id' ,async (c)=>{
@@ -177,34 +223,3 @@ blogRouter.get('/:id' ,async (c)=>{
     
 })
 
-blogRouter.get('/details' ,async(c)=>{
-    const prisma = new PrismaClient({
-    datasourceUrl :c.env.DATABASE_URL
-    }).$extends(withAccelerate())
-
-    try {
-        const authorId = c.get("authorId"); 
-
-        const userDetails = await prisma.user.findUnique({
-        where: {
-            id: authorId,
-        },
-        select: {
-            userName: true,
-            id : true
-        },
-        })
-
-        return c.json({
-            userDetails
-        })
-
-    }catch(e){
-        c.status(400)
-        return c.json({
-            message :"Couldnt get the user details"
-        })
-
-    }
-    
-})
