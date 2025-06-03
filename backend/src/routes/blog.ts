@@ -131,6 +131,8 @@ blogRouter.get("/all" , async (c)=>{
         select :{
             title: true,
             content:true ,
+            createdAt : true,
+            updatedAt:true, 
             author : {
                 select : {
                     userName:true   
