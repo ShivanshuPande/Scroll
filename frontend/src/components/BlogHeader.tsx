@@ -1,7 +1,9 @@
+import { useDetails } from "../hooks"
 import { Avatar } from "./BlogCard"
 
+
 interface ButtonProps {
-    onClick:()=> void   
+    onClick:()=> void
 }
 
 
@@ -23,6 +25,8 @@ function temp (){
 }
 
 export const BlogHeader=()=>{
+
+    const userDetails = useDetails();
     return (
         <div className="fixed left-1/2 -translate-x-1/2 top-0 p-4 z-50">
             <div className=" bg-linear-to-r from-purple-50 to-fuchsia-50 lg:w-200 md:w-150 sm:w-120 w-96 h-18 flex justify-between content-center
@@ -33,7 +37,7 @@ export const BlogHeader=()=>{
                 <div className="flex">
                     <Button onClick={temp}/>
                         <span className="sm:ml-10 ml-2 pr-4">
-                            <Avatar fontSize={"2xl"} size={50} name="Shivanshu Pandey"/>
+                            <Avatar fontSize={"2xl"} size={50} name={userDetails.userDetails.userName}/>
                         </span>
                     </div>
             </div>

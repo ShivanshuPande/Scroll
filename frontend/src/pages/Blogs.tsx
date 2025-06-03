@@ -26,5 +26,4 @@ export const Blogs = () => {
                 title={blogs.title} content={blogs.content} publishDate={blogs.createdAt.slice(0,10)} authorName={blogs.author.userName || "Anonymous"}/>)}
             </div>
         </div>
-    )
-}
+    )}

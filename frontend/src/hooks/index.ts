@@ -17,7 +17,7 @@ interface detailType {
 }
 
 export const useDetails=()=>{
-    const [userDetails , setuserDetails] = useState<detailType>([]);
+    const [userDetails , setuserDetails] = useState<detailType[]>([]);
 
     const token = localStorage.getItem("jwtToken")
 
@@ -30,7 +30,7 @@ export const useDetails=()=>{
             .then(response=>{
                 setuserDetails(response.data.userDetails)
             })
-    })
+    },[])
 
     return {
         userDetails
@@ -44,18 +44,36 @@ export const useBlogs = () => {
 
     const token = localStorage.getItem("jwtToken")
 
-
-    useEffect(()=>{
-        axios.get(`${DATABASE_URL}/api/v1/blog/all` , {
-            headers : {
-                Authorization : `Bearer ${token}`
-            }
-        })             
-            .then(response=>{
-                setBlogs(response.data.blogs);
-                setLoading(false)
+    useEffect(() => {
+        axios.get(`${DATABASE_URL}/api/v1/blog/all`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => {
+            setBlogs(response.data.blogs);
+            setLoading(false);
             })
-    })
+            .catch((error) => {
+            console.error("Error fetching blogs", error); 
+            setLoading(false); 
+            });
+}, []);
+
+    // useEffect(()=>{
+    //     axios.get(`${DATABASE_URL}/api/v1/blog/all` , {
+    //         headers : {
+    //             Authorization : `Bearer ${token}`
+    //         }
+    //     })             
+    //         .then(response=>{
+    //             setBlogs(response.data.blogs);
+    //             setLoading(false)
+    //         })
+    //         .catch((error)=>{
+    //             console.error
+    //         })
+    // })
 
 
     return {

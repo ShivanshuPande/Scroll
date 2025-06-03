@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+// import { withAccelerate } from '@prisma/extension-accelerate'
 import { blogSchema, updateblogSchema } from "@fable07/medium-common";
 
 export const blogRouter = new Hono<{
