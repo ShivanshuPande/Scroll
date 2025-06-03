@@ -11,6 +11,33 @@ interface Blogtypes {
     }
 }
 
+interface detailType {
+    "id" : string ,
+    "userName" : string
+}
+
+export const useDetails=()=>{
+    const [userDetails , setuserDetails] = useState<detailType>([]);
+
+    const token = localStorage.getItem("jwtToken")
+
+    useEffect(()=>{
+        axios.get(`${DATABASE_URL}/api/v1/blog/details`,{
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        })
+            .then(response=>{
+                setuserDetails(response.data.userDetails)
+            })
+    })
+
+    return {
+        userDetails
+    }
+
+}
+
 export const useBlogs = () => {
     const [loading , setLoading] = useState(true);
     const [blogs , setBlogs] = useState<Blogtypes[]>([]);
@@ -23,7 +50,7 @@ export const useBlogs = () => {
             headers : {
                 Authorization : `Bearer ${token}`
             }
-        })
+        })             
             .then(response=>{
                 setBlogs(response.data.blogs);
                 setLoading(false)

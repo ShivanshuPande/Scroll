@@ -9,7 +9,7 @@ export const BlogCard =({authorName , title ,content , publishDate} : BlogProps)
     return (
         <div className="flex justify-center">
             
-                <div className=" md:h-40 hover:border-black h-50 w-200 pl-10 pr-10 pt-4 border-2 border-gray-500 m-2 bg-fuchsia-50 rounded-xl">
+                <div className=" md:h-40 hover:cursor-pointer hover:border-black h-50 w-200 pl-10 pr-10 pt-4 border-2 border-gray-500 m-2 bg-fuchsia-50 rounded-xl">
                 <div className="">
                         <div className="flex">      
                                 <Avatar fontSize={"base"} size={28} name={authorName}/>
