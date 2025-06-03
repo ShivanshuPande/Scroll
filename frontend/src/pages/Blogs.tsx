@@ -1,8 +1,19 @@
 import { BlogCard } from "../components/BlogCard"
 import { BlogHeader } from "../components/BlogHeader"
 import flowerImage from "../assets/flowerbackground.jpg"
+import { useBlogs } from "../hooks"
 
 export const Blogs = () => {
+
+    const {blogs , loading} = useBlogs();
+
+    if(loading){
+        return (
+            <div>
+                Loading
+            </div>
+        )
+    }
     return (
         <div style={{
             backgroundImage: `url(${flowerImage})`
@@ -11,20 +22,8 @@ export const Blogs = () => {
                 <BlogHeader/>
             </div>
             <div className="pt-25">
-                <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
-                 <BlogCard title="Hello There" content="This Human vs AI narrative is just nothing but a business thing,
-                 so that much people can carry out there agenda" authorName="Shivanshu Pandey" publishDate="19.07.2005"/>
+                {blogs.map(blogs=><BlogCard
+                title={blogs.title} content={blogs.content} publishDate={blogs.createdAt.slice(0,10)} authorName={blogs.author.userName || "Anonymous"}/>)}
             </div>
         </div>
     )
