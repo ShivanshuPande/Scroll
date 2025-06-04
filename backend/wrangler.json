@@ -5,7 +5,7 @@
   "compatibility_date": "2025-05-28" ,
  
   "vars": {
-    "DATABASE_URL": "postgresql://shiva_0_owner:shF45uRzqKYm@ep-round-hat-a53b9cr4.us-east-2.aws.neon.tech/shiva_0?sslmode=require" ,
+    "DATABASE_URL": "prisma+postgresql://shiva_0_owner:shF45uRzqKYm@ep-round-hat-a53b9cr4.us-east-2.aws.neon.tech/shiva_0?sslmode=require" ,
     "JWT_SECRET" : "wake me up"
   }
 

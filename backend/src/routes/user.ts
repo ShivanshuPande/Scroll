@@ -11,6 +11,19 @@ export const userRouter = new Hono<{
     }
     
 }>()
+userRouter.get("/ping", async (c) => {
+  try {
+    const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+    });
+    const users = await prisma.user.findMany({ take: 1 });
+    return c.json({ status: "OK", users });
+  } catch (e) {
+    console.error("Ping error:", e);
+    return c.json({ error: "DB connection failed", message: String(e) });
+  }
+});
+
 
 
 userRouter.post('/signup' ,async (c) =>{
@@ -52,7 +65,9 @@ userRouter.post('/signup' ,async (c) =>{
 
 userRouter.post('/signin' , async  (c)=>{
 
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+    });
 
 
   try {
