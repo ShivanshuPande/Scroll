@@ -5,7 +5,7 @@
   "compatibility_date": "2025-05-28" ,
  
   "vars": {
-    "DATABASE_URL": "prisma+postgresql://shiva_0_owner:shF45uRzqKYm@ep-round-hat-a53b9cr4.us-east-2.aws.neon.tech/shiva_0?sslmode=require" ,
+    "DATABASE_URL": "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMDFKV1gzRjM4NU5KSFRDVzc5TVpXNTZGMlMiLCJ0ZW5hbnRfaWQiOiI4MWZlMDI1ZGIzNjEwMDZjN2VhZDczNzRlN2JjNzgxMmI0NWYwM2Y4ZTM0YzgzMzUxYzA0MjdiMzdiMGJiODQwIiwiaW50ZXJuYWxfc2VjcmV0IjoiMDUyMTNjYmUtODMyMy00Yzc5LTljYzEtZmVkN2NmYzkxNDY1In0.47FXfWVv1xYvBhZI8BC37GDdpFGC-3lOxeS-QqHrurU" ,
     "JWT_SECRET" : "wake me up"
   }
 
