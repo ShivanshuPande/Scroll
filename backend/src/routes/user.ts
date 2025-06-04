@@ -39,7 +39,7 @@ userRouter.post('/signup' ,async (c) =>{
   
 
   return c.json({
-    jwt : token 
+    token : token 
   }) }catch(e){
     console.log("Signup error:", e);
     c.status(400)
@@ -84,7 +84,7 @@ userRouter.post('/signin' , async  (c)=>{
     const token = await sign({id : user.id} , c.env.JWT_SECRET)
 
     return c.json({
-      jwt : token
+      token : token
     })
 
   }catch(e){
